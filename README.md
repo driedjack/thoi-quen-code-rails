@@ -27,3 +27,60 @@ Tham khảo ở:
 - [What does the comment “frozen_string_literal: true” do?](https://stackoverflow.com/questions/37799296/what-does-the-comment-frozen-string-literal-true-do)
 - [Ruby note](https://bugs.ruby-lang.org/issues/8976#note-30)
 - [An Introduction to Frozen String Literals - Freelancing Gods](https://freelancing-gods.com/2017/07/27/an-introduction-to-frozen-string-literals.html)
+
+## Cách dòng để phân biệt vùng liên quan
+
+Ta có thể phân vùng code cho mắt dễ đọc, dễ định hình hơn bằng cách dòng. Nhóm những dòng code có cùng chức năng, tách riêng từng đoạn code nếu mỗi đoạn là độc lập ví dụ như khai báo lớp, khai báo hàm,...
+
+Ví dụ:
+
+```ruby
+# frozen_string_literal: true
+
+require 'trò_chơi'
+require 'chiến_thuật'
+
+class TaiKhoan < ApplicationRecord
+  include ThoiGian
+  include DauOc
+  
+  SO_TRAN_BI_BAN = 5
+  TEN_GAME = 'Dota'
+  
+  belongs_to :người_chơi
+  belongs_to :quốc_gia
+  
+  has_many :trận
+  has_many :đồ
+  
+  validates :tên, presence: true, uniqueness: true
+  validates :tiền, numericality: true
+  
+  before_validate :bỏ_khoảng_trắng_trong_tên
+  
+  before_save :tăng_số_lần_chơi
+  
+  scope :vip, -> { where(loại: :vip) }
+  scope :ban, -> { where('số_lần_huỷ_trận > ?', SO_TRAN_BI_BAN }
+  
+  class << self
+    def tài_khoản_nam
+      # code linh tinh
+    end
+    
+    def tài_khoản_nữ
+      # code linh tinh
+    end
+  end
+  
+  def chơi_hay_không?
+    # code linh tinh
+  end
+  
+  private
+  
+  def tên_kèm_quốc_gia
+    # code linh tinh
+  end
+end
+```
